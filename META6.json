@@ -5,7 +5,7 @@
   "tags": [
     "text", "markup"
   ],
-  "license": "AGPL-3.0-or-later",
+  "license": "GPL-3.0-or-later",
   "source-url": "https://alexschroeder.ch/cgit/text-markdown-common/",
   "auth": "kensanata",
   "authors": [
