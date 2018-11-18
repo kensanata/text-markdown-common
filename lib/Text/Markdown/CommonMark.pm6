@@ -1,4 +1,4 @@
-# Text::Markdown::Common is a Markdown-to-HTML converter
+# Text::Markdown::CommonMark is a Markdown-to-HTML converter
 # Copyright (C) 2018  Alex Schroeder <alex@gnu.org>
 #
 # This program is free software: you can redistribute it and/or modify it
@@ -16,15 +16,15 @@
 
 =begin pod
 
-=head1 Text::Markdown::Common
+=head1 Text::Markdown::CommonMark
 
-    use Text::Markdown::Common;
+    use Text::Markdown::CommonMark;
     my $md = parse-markdown($raw-md);
     say $md.to_html;
 
 =end pod
 
-class Text::Markdown::Common {
+class Text::Markdown::CommonMark {
 
     has Str $.html is rw;
 
@@ -37,7 +37,7 @@ class Text::Markdown::Common {
     }
 }
 
-grammar Text::Markdown::Common::Grammar {
+grammar Text::Markdown::CommonMark::Grammar {
     rule TOP {
         ^
         <block>*
@@ -67,7 +67,7 @@ grammar Text::Markdown::Common::Grammar {
     }
 }
 
-class Text::Markdown::Common::ToHtml {
+class Text::Markdown::CommonMark::ToHtml {
 
     method paragraph($/) {
         # FIXME how to do this?
@@ -83,8 +83,8 @@ class Text::Markdown::Common::ToHtml {
     }
 }
 
-sub parse-markdown(Str $raw-md --> Text::Markdown::Common) is export {
-    return Text::Markdown::Common.new(
-        html => Text::Markdown::Common::Grammar.parse(
-            $raw-md, :actions(Text::Markdown::Common::ToHtml.new)).Str);
+sub parse-markdown(Str $raw-md --> Text::Markdown::CommonMark) is export {
+    return Text::Markdown::CommonMark.new(
+        html => Text::Markdown::CommonMark::Grammar.parse(
+            $raw-md, :actions(Text::Markdown::CommonMark::ToHtml.new)).Str);
 }

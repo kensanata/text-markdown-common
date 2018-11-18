@@ -16,7 +16,7 @@
 
 use Test;
 use JSON::Fast;
-use Text::Markdown::Common;
+use Text::Markdown::CommonMark;
 
 sub load_tests {
   my $spec = "t/common-markdown-spec-0.28.json";

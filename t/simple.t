@@ -15,9 +15,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 use Test;
-use Text::Markdown::Common;
+use Text::Markdown::CommonMark;
 
-say Text::Markdown::Common::Grammar.parse('foo', :actions(Text::Markdown::Common::ToHtml.new));
+# say Text::Markdown::CommonMark::Grammar.parse('foo', :actions(Text::Markdown::CommonMark::ToHtml.new));
 
 is(parse-markdown('foo').to-html, '<p>foo</p>', 'paragraph');
 
