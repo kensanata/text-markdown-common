@@ -37,11 +37,58 @@ class Text::Markdown::Common {
     }
 }
 
-sub parse-markdown(Str $raw-md --> Text::Markdown::Common) is export {
-    return Text::Markdown::Common.new(html => parse($raw-md));
+grammar CommonMark {
+    rule TOP {
+        ^
+        <blocks>*
+        $
+    }
+
+    rule blocks {
+        <paragraph> [ <blank-line>+ <paragraph> ]*
+    }
+
+    rule paragraph {
+        <line> [ <line-ending> <line> ]*
+    }
+
+    rule line {
+        [^\n\r]+
+    }
+
+    rule line-ending {
+        ( \n | \r <!before \n> | \n \r )
+    }
+
+    rule blank-line {
+        ^^
+        [ \t]*
+        $$
+    }
 }
 
-sub parse(Str $raw-md --> Str) {
-    # FIXME
-    return $raw-md;
+class ToHtml {
+    method TOP($/) {
+        $/.make($/);
+    }
+
+    method paragraph($/) {
+        $/.make('<p>' ~ $<paragaph> ~ '</p>');
+    }
+
+    method line($/) {
+        $/.make(~$<line>);
+    }
+
+    method line-ending {
+        $/.make("\n");
+    }
+
+    method blank-line {
+        $/.make("\n");
+    }
+}
+
+sub parse-markdown(Str $raw-md --> Text::Markdown::Common) is export {
+    return Text::Markdown::Common.new(html => CommonMark.parse($raw-md, :actions(ToHtml.new)));
 }
