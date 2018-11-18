@@ -18,14 +18,6 @@
 
 =head1 Text::Markdown::Common
 
-This is a drop-in replacement for Text::Markdown.
-
-    use Text::Markdown::Common;
-    my $md = Text::Markdown::Common.new($raw-md);
-    say $md.render;
-
-or
-
     use Text::Markdown::Common;
     my $md = parse-markdown($raw-md);
     say $md.to_html;
