@@ -15,11 +15,8 @@
 
 VERSION=$(shell perl6 -M JSON::Fast -e 'from-json("META6.json".IO.slurp)<version>.say')
 
-# How many jobs to run in parallel when testing
-jobs ?= 4
-
 test:
-	prove6 -l -j=$(jobs) t
+	prove6 -l t
 
 .PHONY: unit-test
 t/%.t: unit-test

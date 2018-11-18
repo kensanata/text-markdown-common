@@ -15,7 +15,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 use Test;
-use JSON::Tiny;
+use JSON::Fast;
 use Text::Markdown::Common;
 
 sub load_tests {
@@ -30,12 +30,16 @@ sub normalize (Str $html is copy --> Str) {
 
 my @tests = load_tests.List; # this .List is required for the moment
 
-for @tests -> %test {
+# for @tests -> %test {
+hyper for @tests.hyper(:batch(1)) -> %test {
   my $name = %test<example> ~ ". (" ~ %test<section> ~ ")";
   my $input = %test<markdown>;
-  my $output = parse-markdown($input).to-html;
-  my $correct = normalize(%test<html>);
-  is($output, $correct, $name);
+  %test<output> = parse-markdown($input).to-html;
+  %test<correct> = normalize(%test<html>);
+}
+
+@tests.map: {
+  is(.<output>, .<correct>, .<name>);
 }
 
 done-testing();
