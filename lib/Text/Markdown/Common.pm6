@@ -37,23 +37,23 @@ class Text::Markdown::Common {
     }
 }
 
-grammar CommonMark {
+grammar Text::Markdown::Common::Grammar {
     rule TOP {
         ^
-        <blocks>*
+        <block>*
         $
     }
 
-    rule blocks {
-        <paragraph> [ <blank-line>+ <paragraph> ]*
+    rule block {
+        <paragraph> ( <blank-line>+ <paragraph> )*
     }
 
     rule paragraph {
-        <line> [ <line-ending> <line> ]*
+        <line> ( <line-ending> <line> )*
     }
 
     rule line {
-        [^\n\r]+
+        <-[ \n \r ]>+
     }
 
     rule line-ending {
@@ -67,17 +67,11 @@ grammar CommonMark {
     }
 }
 
-class ToHtml {
-    method TOP($/) {
-        $/.make($/);
-    }
+class Text::Markdown::Common::ToHtml {
 
     method paragraph($/) {
-        $/.make('<p>' ~ $<paragaph> ~ '</p>');
-    }
-
-    method line($/) {
-        $/.make(~$<line>);
+        # FIXME how to do this?
+        $/.make('<p>' ~ $/ ~ '</p>');
     }
 
     method line-ending {
@@ -90,5 +84,7 @@ class ToHtml {
 }
 
 sub parse-markdown(Str $raw-md --> Text::Markdown::Common) is export {
-    return Text::Markdown::Common.new(html => CommonMark.parse($raw-md, :actions(ToHtml.new)));
+    return Text::Markdown::Common.new(
+        html => Text::Markdown::Common::Grammar.parse(
+            $raw-md, :actions(Text::Markdown::Common::ToHtml.new)).Str);
 }

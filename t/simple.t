@@ -17,6 +17,8 @@
 use Test;
 use Text::Markdown::Common;
 
+say Text::Markdown::Common::Grammar.parse('foo', :actions(Text::Markdown::Common::ToHtml.new));
+
 is(parse-markdown('foo').to-html, '<p>foo</p>', 'paragraph');
 
 done-testing();
