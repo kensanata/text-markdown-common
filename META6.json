@@ -1,0 +1,26 @@
+{
+  "name": "Text::Markdown::Common",
+  "version": "0.0.1",
+  "description": "An implementation for CommonMark",
+  "tags": [
+    "text", "markup"
+  ],
+  "license": "AGPL-3.0-or-later",
+  "source-url": "https://alexschroeder.ch/cgit/text-markdown-common/",
+  "auth": "kensanata",
+  "authors": [
+    "Alex Schroeder <alex@gnu.org>"
+  ],
+  "support": {
+    "source": "https://oddmuse.org/wiki/CommonMark_for_Perl_6"
+  },
+  "resources": [],
+  "provides": {
+    "Text::Markdown::Common":       "lib/Text/Markdown/Common.pm6",
+  },
+  "perl": "6.*",
+  "meta-version": "0",
+  "depends": [],
+  "build-depends": [],
+  "test-depends": []
+}
